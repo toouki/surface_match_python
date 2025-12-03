@@ -1,0 +1,7 @@
+build*
+**/.vscode
+.cache
+.gdb_history
+compile_commands.json
+.emacs.desktop*
+TAGS
