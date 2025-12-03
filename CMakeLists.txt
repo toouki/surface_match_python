@@ -26,15 +26,13 @@ set(GTL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/gtl/include")
 
 # 构建ppf库
 add_library(ppf SHARED
-    ppf.h ppf.cpp 
-    util.h util.cpp 
-    type.h type.cpp 
-    icp.h icp.cpp 
-    privateUtil.h 
-    filePLY.h filePLY.cpp 
+    src/ppf.cpp 
+    src/util.cpp 
+    src/type.cpp 
+    src/icp.cpp 
+    src/filePLY.cpp 
     ${RPLY_SOURCE} 
-    serialize.h serialize.cpp 
-    privateType.h
+    src/serialize.cpp 
 )
 
 # 头文件搜索路径（添加本地 gtl/include 目录）
@@ -44,6 +42,7 @@ target_include_directories(ppf PRIVATE
     ${EIGEN3_INCLUDE_DIRS}
     ${RPLY_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${GTL_INCLUDE_DIR}  # 本地 gtl 头文件路径
 )
 
@@ -65,7 +64,7 @@ target_compile_definitions(ppf PUBLIC API_EXPORTS)
 add_library(ppf::ppf ALIAS ppf)
 set_property(TARGET ppf PROPERTY EXPORT_NAME ppf::ppf)
 
-install(FILES ppf.h type.h apiExport.h filePLY.h util.h TYPE INCLUDE)
+install(FILES include/ppf.h include/type.h include/apiExport.h include/filePLY.h include/util.h TYPE INCLUDE)
 install(TARGETS ppf EXPORT ppf LIBRARY)
 
 # 可选：构建示例
@@ -75,6 +74,7 @@ if(BUILD_EXAMPLE)
     add_executable(test_ppf main.cpp)
     target_include_directories(test_ppf PRIVATE 
         ${CMAKE_CURRENT_SOURCE_DIR} 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${EIGEN3_INCLUDE_DIRS}
         ${GTL_INCLUDE_DIR}  # 示例也需要本地 gtl 头文件
     )
